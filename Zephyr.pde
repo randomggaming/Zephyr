@@ -258,7 +258,7 @@ class Game
     if (keyDown('D'))  
     {
       println("The 'D' key is down.");
-      player.setVelXY(
+      
       player.velocityX -= 10;
       return;
     }
