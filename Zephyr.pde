@@ -22,7 +22,7 @@ void setup()
 void draw()
 {
   // We need to paint the sceen before we draw every frame.
-  background(_lightSkyBlue);
+  background(_white);
   game.draw();
 }
 
@@ -58,10 +58,14 @@ boolean keyDown(int kCode) { return keysDown.contains(kCode); }
 **/
 class Game
 {
-  PApplet applet;
-  ArrayList<Sprite> dirtBlocks;    // holds all the dirt blocks.
-  CCharacter player = null;        // The client user's character.
-  StopWatch timer;                 // game timer.
+  private PApplet applet;
+  
+  public State state;
+  public GameState gameState;
+  
+  private ArrayList<Sprite> dirtBlocks;    // holds all the dirt blocks.
+  private CCharacter player = null;        // The client user's character.
+  private StopWatch timer;                 // game timer.
   
   /**
   **  Function:  Game
@@ -73,6 +77,9 @@ class Game
   public Game(PApplet applet)
   {
     this.applet = applet;
+    
+    // Set application state.
+    state = State.LOADING;
     
     // setup the game.
     setup();
@@ -141,6 +148,8 @@ class Game
   private void startGame()
   {
     timer.reset();
+    state = State.GAME;
+    gameState = GameState.PLAYING;
   }
   
   /**
@@ -154,22 +163,53 @@ class Game
   **/
   public void draw()
   {
-    // update the game before we draw anything.
-    float elapsedTime = (float)timer.getElapsedTime();
-    
-    if (true)    // placehoder for pause feature.
+    switch (state)
     {
-      update(elapsedTime);
+      case LOADING:
+      {
+        return;
+      }
+      case MAINMENU:
+      {
+        return;
+      }
+      case CREATOR:
+      {
+        return;
+      }
+      case GAME:
+      {
+        background(_lightSkyBlue);
+        
+        // update the game before we draw anything.
+        float elapsedTime = (float)timer.getElapsedTime();
+    
+        if (gameState == GameState.PLAYING)    
+        {
+          update(elapsedTime);
+        }
+    
+        // Draw the dirt blocks.
+        for (Sprite sprite : dirtBlocks)
+        {
+          sprite.draw();
+        }
+    
+        // draw the player's character.
+        player.draw();
+        
+        return;
+      }
+      case PAUSEMENU:
+      {
+        return;
+      }
+      default:
+      {
+        return;
+      }
     }
     
-    // Draw the dirt blocks.
-    for (Sprite sprite : dirtBlocks)
-    {
-      sprite.draw();
-    }
-    
-    // draw the player's character.
-    player.draw();
   }
   
   /**

@@ -29,6 +29,8 @@ int[] getPixelData(PImage image, int x, int y)
 final static int _black = 0xff000000;
 // Blue
 final static int _blue = 0xff0000ff;
+// White
+final static int _white = 0xffffffff;
 
 // Light Sky Blue
 final static int _lightSkyBlue = 0xffb0e2ff;
